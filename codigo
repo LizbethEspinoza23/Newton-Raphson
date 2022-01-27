@@ -1,0 +1,27 @@
+function [xi,datos,i] = newtonrap(fun,der,x,tol=0.001,iter=1000)
+
+i=1;
+
+#f=@(x) eval(fun); % funciones anónimas
+f=fun;
+while 1
+    xi=x;
+    x=xi-(f(xi)/der(xi));
+    datos(i,1)=x;
+    datos(i,2)=xi;
+    datos(i,4)=f(x);
+    datos(i,5)=f(xi);
+    datos(i,6)=der(x);
+    datos(i,6)=der(xi);
+    datos(i,7)=abs(xi-x);
+     if i>iter
+        msgID = 'PUNTOFIJO:iteraciones';
+        msg = 'Gran número de iteraciones, posiblemente el método divergió';
+       
+        error(msgID,msg)
+    elseif abs(xi-x)<tol
+        break;
+     
+    end
+    i=i+1;
+end
